@@ -1,0 +1,266 @@
+{
+  "expectations": [
+    {
+      "id": "4c8e4179-aa60-43de-af9b-c540a052031d",
+      "kwargs": {
+        "max_value": 300,
+        "min_value": 150
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Expected ~200 stores; buffer for organic growth"
+      },
+      "type": "expect_table_row_count_to_be_between"
+    },
+    {
+      "id": "9c304569-2395-4c6f-82cc-b9a247bf481f",
+      "kwargs": {
+        "column_list": [
+          "store_key",
+          "store_id",
+          "store_name",
+          "city",
+          "state",
+          "region",
+          "store_type",
+          "opening_date"
+        ]
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Schema drift guard; 8 columns in declared order"
+      },
+      "type": "expect_table_columns_to_match_ordered_list"
+    },
+    {
+      "id": "2df60c2f-75b0-4e2a-889e-025981c3b849",
+      "kwargs": {
+        "column": "store_key"
+      },
+      "meta": {
+        "dimension": "Completeness",
+        "rationale": "Surrogate PK \u2014 structurally required"
+      },
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "2408c65d-f25c-4b32-b576-1182fa72e82b",
+      "kwargs": {
+        "column": "store_id"
+      },
+      "meta": {
+        "dimension": "Completeness",
+        "rationale": "Business natural key \u2014 required"
+      },
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "fe9dbf7f-c094-48b2-85f1-89fb55dabca7",
+      "kwargs": {
+        "column": "store_name"
+      },
+      "meta": {
+        "dimension": "Completeness",
+        "rationale": "Store name required for any downstream report"
+      },
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "e030fdf6-fc78-4011-9684-998ee5825722",
+      "kwargs": {
+        "column": "opening_date"
+      },
+      "meta": {
+        "dimension": "Completeness",
+        "rationale": "Opening date required for store age analytics"
+      },
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "80dbbc83-dd51-4f38-b23b-4b4e52925ded",
+      "kwargs": {
+        "column": "state"
+      },
+      "meta": {
+        "dimension": "Completeness",
+        "rationale": "State required for geographic analytics"
+      },
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "a2031f3e-e647-47dd-9ea1-2e3881302fd3",
+      "kwargs": {
+        "column": "store_key"
+      },
+      "meta": {
+        "dimension": "Uniqueness",
+        "rationale": "store_key is the surrogate PK"
+      },
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "f3e6321c-9bf0-4950-a122-a5641e860999",
+      "kwargs": {
+        "column": "store_id"
+      },
+      "meta": {
+        "dimension": "Uniqueness",
+        "rationale": "store_id is the business natural key \u2014 one row per store"
+      },
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "dec47930-6ce4-4c39-b46a-35d38a2de468",
+      "kwargs": {
+        "column": "store_key",
+        "max_value": 10000.0,
+        "min_value": 1.0
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Surrogate keys positive and within sane range"
+      },
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "9bd77c1e-8f6d-4325-a8b0-bc5e216293f7",
+      "kwargs": {
+        "column": "store_type",
+        "value_set": [
+          "Standard",
+          "Express",
+          "Flagship"
+        ]
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "store_type must be one of the canonical store formats"
+      },
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "18f33d1b-ba24-4aab-9fa9-1d97e4bdd61d",
+      "kwargs": {
+        "column": "region",
+        "value_set": [
+          "West",
+          "South",
+          "Northeast",
+          "Midwest"
+        ]
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "region must be one of the canonical US regions"
+      },
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "e7b94990-97de-4cd8-bc98-a28b01fcfdd7",
+      "kwargs": {
+        "column": "state",
+        "max_value": 2,
+        "min_value": 2
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "US state codes are exactly 2 uppercase letters"
+      },
+      "type": "expect_column_value_lengths_to_be_between"
+    },
+    {
+      "description": "store_id must match format 'STR' followed by digits",
+      "id": "52c95aeb-b09e-4382-b7e1-774827f2136c",
+      "kwargs": {
+        "unexpected_rows_query": "SELECT store_key, store_id FROM {batch} WHERE store_id !~ '^STR[0-9]+$'"
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Business ID convention: 'STR' prefix + numeric suffix"
+      },
+      "type": "unexpected_rows_expectation"
+    },
+    {
+      "id": "97205b87-8171-42cc-b768-e9810050942e",
+      "kwargs": {
+        "column": "store_id",
+        "max_value": 15,
+        "min_value": 5
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "store_id format 'STR####' \u2014 typical 7 chars; allow range"
+      },
+      "type": "expect_column_value_lengths_to_be_between"
+    },
+    {
+      "id": "9bd84ab2-b0fc-442a-ad09-4be77d1e94b1",
+      "kwargs": {
+        "column": "store_name",
+        "max_value": 100,
+        "min_value": 3
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Store names should be between 3 and 100 characters"
+      },
+      "type": "expect_column_value_lengths_to_be_between"
+    },
+    {
+      "id": "8638bbfb-c346-40f8-867c-fd8cc3cd55d5",
+      "kwargs": {
+        "column": "city",
+        "max_value": 50,
+        "min_value": 2
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "City names between 2 and 50 characters"
+      },
+      "type": "expect_column_value_lengths_to_be_between"
+    },
+    {
+      "description": "opening_date must be on or before today",
+      "id": "d79d069d-afb1-4e87-9f4a-5f02daa6ee1d",
+      "kwargs": {
+        "unexpected_rows_query": "SELECT store_key, store_id, opening_date FROM {batch} WHERE opening_date > CURRENT_DATE"
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "A store cannot have opened in the future"
+      },
+      "type": "unexpected_rows_expectation"
+    },
+    {
+      "id": "e71ffdcd-2f4c-4780-8153-18bfcb81a287",
+      "kwargs": {
+        "column": "opening_date",
+        "max_value": "2030-12-31",
+        "min_value": "1990-01-01"
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Store opening dates should fall within business horizon (1990-2030)"
+      },
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "description": "No single store_type should account for more than 70% of all stores",
+      "id": "d3b19986-8be6-40e2-9ed0-a7c5d6661dc0",
+      "kwargs": {
+        "unexpected_rows_query": "SELECT store_type, store_count, ratio FROM (  SELECT store_type,          COUNT(*) AS store_count,          CAST(COUNT(*) AS FLOAT) / NULLIF(SUM(COUNT(*)) OVER (), 0) AS ratio   FROM {batch}   GROUP BY store_type) t WHERE ratio > 0.70"
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Distribution sanity: a healthy retailer has portfolio diversity"
+      },
+      "type": "unexpected_rows_expectation"
+    }
+  ],
+  "id": "4be2cce5-9a22-4c9e-8c14-3034152c442f",
+  "meta": {
+    "great_expectations_version": "1.3.14"
+  },
+  "name": "dim_store_suite",
+  "notes": null
+}

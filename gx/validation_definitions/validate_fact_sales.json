@@ -1,0 +1,22 @@
+{
+  "data": {
+    "asset": {
+      "id": "76a71780-e522-448c-871d-384d6717ac8c",
+      "name": "fact_sales"
+    },
+    "batch_definition": {
+      "id": "ab30a1e9-e4f9-4e6e-9433-d78b77dcabaf",
+      "name": "fact_sales_whole_table"
+    },
+    "datasource": {
+      "id": "aa74b1d6-bc91-433f-b82f-990af65773ef",
+      "name": "retail_warehouse_dq"
+    }
+  },
+  "id": "7461a352-0893-4ab0-91a3-5d950e92b7a5",
+  "name": "validate_fact_sales",
+  "suite": {
+    "id": "32c8796a-f398-4645-b00f-54e2c0e879d3",
+    "name": "fact_sales_suite"
+  }
+}

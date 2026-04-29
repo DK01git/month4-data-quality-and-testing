@@ -1,0 +1,22 @@
+{
+  "data": {
+    "asset": {
+      "id": "fd303026-1447-4f4f-ad87-11438d9edcce",
+      "name": "dim_product"
+    },
+    "batch_definition": {
+      "id": "527ecf28-27ba-4bda-8534-35618df0c3a8",
+      "name": "dim_product_whole_table"
+    },
+    "datasource": {
+      "id": "aa74b1d6-bc91-433f-b82f-990af65773ef",
+      "name": "retail_warehouse_dq"
+    }
+  },
+  "id": "6db1f4ad-cbdd-4e54-905f-d87258f9f1b4",
+  "name": "validate_dim_product",
+  "suite": {
+    "id": "6f9af039-b90b-4c5b-80dd-88d6041756ce",
+    "name": "dim_product_suite"
+  }
+}

@@ -1,0 +1,282 @@
+{
+  "expectations": [
+    {
+      "id": "b1cb02a8-24bd-49f7-8069-f12c044a5028",
+      "kwargs": {
+        "max_value": 1200,
+        "min_value": 800
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Expected ~1,000 products; buffer for catalog growth"
+      },
+      "type": "expect_table_row_count_to_be_between"
+    },
+    {
+      "id": "a7b9635c-5790-4748-a9cd-64f105a8cb68",
+      "kwargs": {
+        "column_list": [
+          "product_key",
+          "product_id",
+          "product_name",
+          "category",
+          "subcategory",
+          "brand",
+          "list_price",
+          "cost_price",
+          "is_active"
+        ]
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Schema drift guard; 9 columns in declared order"
+      },
+      "type": "expect_table_columns_to_match_ordered_list"
+    },
+    {
+      "id": "1f9efadd-0142-49f0-8602-429d5dbef6a1",
+      "kwargs": {
+        "column": "product_key"
+      },
+      "meta": {
+        "dimension": "Completeness",
+        "rationale": "Surrogate PK \u2014 structurally required"
+      },
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "02c8a4cb-562a-4a97-a5d5-0cf3e10dae95",
+      "kwargs": {
+        "column": "product_id"
+      },
+      "meta": {
+        "dimension": "Completeness",
+        "rationale": "Business natural key \u2014 required"
+      },
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "e9f14d11-61bd-474f-9a23-c55e2093159c",
+      "kwargs": {
+        "column": "product_name"
+      },
+      "meta": {
+        "dimension": "Completeness",
+        "rationale": "Product name required for any downstream report"
+      },
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "9937ce05-9714-4c72-83ac-5156b0b667aa",
+      "kwargs": {
+        "column": "is_active"
+      },
+      "meta": {
+        "dimension": "Completeness",
+        "rationale": "is_active flag required for filtering active catalog"
+      },
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "2a7ac4e4-b089-404c-81bf-e86d675a1db1",
+      "kwargs": {
+        "column": "list_price"
+      },
+      "meta": {
+        "dimension": "Completeness",
+        "rationale": "list_price required for any pricing analytics"
+      },
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "d7d6a894-90a3-4af3-9fec-089568fa6187",
+      "kwargs": {
+        "column": "product_key"
+      },
+      "meta": {
+        "dimension": "Uniqueness",
+        "rationale": "product_key is the surrogate PK"
+      },
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "756f56d6-7a27-404e-9a16-7b1030dc0728",
+      "kwargs": {
+        "column": "product_id"
+      },
+      "meta": {
+        "dimension": "Uniqueness",
+        "rationale": "product_id is the business natural key \u2014 one row per product"
+      },
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "2e1b6d76-eb99-4c53-8138-6aa640cf4633",
+      "kwargs": {
+        "column": "list_price",
+        "max_value": 10000.0,
+        "min_value": 0.01
+      },
+      "meta": {
+        "dimension": "Validity",
+        "predicted": "FAIL \u2014 D5 injection (15 rows with list_price=0)",
+        "rationale": "list_price must be positive; upper bound catches encoding bugs"
+      },
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "e3523b98-f447-43aa-9485-695050e28f52",
+      "kwargs": {
+        "column": "cost_price",
+        "max_value": 10000.0,
+        "min_value": 0.0
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "cost_price must be non-negative"
+      },
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "360b5193-b978-4249-ad94-f55a5cf0e36e",
+      "kwargs": {
+        "column": "product_key",
+        "max_value": 100000.0,
+        "min_value": 1.0
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Surrogate keys positive and within sane range"
+      },
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "234c17b3-2c78-4c3a-9448-71e6c9f6b35b",
+      "kwargs": {
+        "column": "is_active",
+        "value_set": [
+          true,
+          false
+        ]
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "is_active should only take the two boolean values"
+      },
+      "type": "expect_column_distinct_values_to_be_in_set"
+    },
+    {
+      "description": "product_id must match format 'PRD' followed by digits",
+      "id": "9518c124-664f-43d8-a86d-fcd2a2858baf",
+      "kwargs": {
+        "unexpected_rows_query": "SELECT product_key, product_id FROM {batch} WHERE product_id !~ '^PRD[0-9]+$'"
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Business ID convention: 'PRD' prefix + numeric suffix"
+      },
+      "type": "unexpected_rows_expectation"
+    },
+    {
+      "id": "ed86231d-a787-478d-8fd0-f1ddd469b691",
+      "kwargs": {
+        "column": "product_id",
+        "max_value": 20,
+        "min_value": 5
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "product_id format 'PRD#####' \u2014 8 chars but allow range"
+      },
+      "type": "expect_column_value_lengths_to_be_between"
+    },
+    {
+      "id": "4553fbde-cdb0-44df-acd2-6e9ff781ddf4",
+      "kwargs": {
+        "column": "product_name",
+        "max_value": 100,
+        "min_value": 3
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Product names should be between 3 and 100 characters"
+      },
+      "type": "expect_column_value_lengths_to_be_between"
+    },
+    {
+      "id": "99976b87-a76d-4ae1-b9a3-3396963dbef9",
+      "kwargs": {
+        "column": "category",
+        "max_value": 50,
+        "min_value": 3,
+        "mostly": 0.99
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Category length sanity; accepts mostly=0.99 to handle any rare nulls"
+      },
+      "type": "expect_column_value_lengths_to_be_between"
+    },
+    {
+      "id": "9fe2d888-00b0-4d55-ba39-911328378a2a",
+      "kwargs": {
+        "column": "brand",
+        "max_value": 50,
+        "min_value": 2,
+        "mostly": 0.99
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Brand length sanity; relaxed for null tolerance"
+      },
+      "type": "expect_column_value_lengths_to_be_between"
+    },
+    {
+      "id": "b619ead7-e3a1-42b4-9e59-20447cfd6d80",
+      "kwargs": {
+        "column": "subcategory",
+        "max_value": 50,
+        "min_value": 3,
+        "mostly": 0.99
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Subcategory length sanity; relaxed for null tolerance"
+      },
+      "type": "expect_column_value_lengths_to_be_between"
+    },
+    {
+      "id": "1d5316a2-b8e0-4715-b74d-e2defd463bf9",
+      "kwargs": {
+        "column": "list_price",
+        "max_value": 1000.0,
+        "min_value": 0.0,
+        "mostly": 0.999
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Per-profile ceiling; mostly=0.999 absorbs occasional premium products"
+      },
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "description": "cost_price must not exceed list_price (margin invariant)",
+      "id": "fae0a60a-2af4-4a13-8eee-cc9fc085ebcb",
+      "kwargs": {
+        "unexpected_rows_query": "SELECT product_key, product_id, list_price, cost_price FROM {batch} WHERE cost_price > list_price"
+      },
+      "meta": {
+        "dimension": "Accuracy",
+        "predicted": "FAIL \u2014 D6 (10 rows) + cascade from D5 (15 rows) = 25 rows",
+        "rationale": "Cross-column invariant: cost cannot exceed list price"
+      },
+      "type": "unexpected_rows_expectation"
+    }
+  ],
+  "id": "6f9af039-b90b-4c5b-80dd-88d6041756ce",
+  "meta": {
+    "great_expectations_version": "1.3.14"
+  },
+  "name": "dim_product_suite",
+  "notes": null
+}

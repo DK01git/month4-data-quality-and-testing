@@ -1,0 +1,281 @@
+{
+  "expectations": [
+    {
+      "id": "b87ae28a-7104-47e0-b4fa-9a7f3ac785fd",
+      "kwargs": {
+        "max_value": 400,
+        "min_value": 300
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "One row per day for ~1 year; leap/non-leap tolerance"
+      },
+      "type": "expect_table_row_count_to_be_between"
+    },
+    {
+      "id": "9f9c008b-d7f9-4614-afbf-ff7082a49766",
+      "kwargs": {
+        "column_list": [
+          "date_key",
+          "full_date",
+          "year_number",
+          "quarter_number",
+          "month_number",
+          "month_name",
+          "day_of_week",
+          "day_name",
+          "is_weekend",
+          "is_holiday"
+        ]
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Schema drift guard; columns must appear in fixed order"
+      },
+      "type": "expect_table_columns_to_match_ordered_list"
+    },
+    {
+      "id": "6c52db06-9f68-4687-9bd2-5e1ce68ba058",
+      "kwargs": {
+        "column": "date_key"
+      },
+      "meta": {
+        "dimension": "Completeness",
+        "rationale": "date_key is structurally required"
+      },
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "b11e1e08-e179-4f33-9d11-42d57ef1f5f9",
+      "kwargs": {
+        "column": "full_date"
+      },
+      "meta": {
+        "dimension": "Completeness",
+        "rationale": "full_date is structurally required"
+      },
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "9f74a363-c340-4d75-bcad-0e5c39a3f7d2",
+      "kwargs": {
+        "column": "year_number"
+      },
+      "meta": {
+        "dimension": "Completeness",
+        "rationale": "year_number is structurally required"
+      },
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "30f5876f-2353-4c9f-ae19-13d21de24d77",
+      "kwargs": {
+        "column": "month_number"
+      },
+      "meta": {
+        "dimension": "Completeness",
+        "rationale": "month_number is structurally required"
+      },
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "85dbf824-96e7-454d-957b-238c21f48b62",
+      "kwargs": {
+        "column": "quarter_number"
+      },
+      "meta": {
+        "dimension": "Completeness",
+        "rationale": "quarter_number is structurally required"
+      },
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "23fc2584-847e-4a95-8769-96c6aa3be3d6",
+      "kwargs": {
+        "column": "date_key"
+      },
+      "meta": {
+        "dimension": "Uniqueness",
+        "rationale": "date_key is the surrogate PK"
+      },
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "f60059ca-a3a1-4c87-9ded-2ad3ef4bc342",
+      "kwargs": {
+        "column": "full_date"
+      },
+      "meta": {
+        "dimension": "Uniqueness",
+        "rationale": "One calendar date should appear exactly once"
+      },
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "ec5cb3a6-8553-43fb-be3f-70aa76d4250d",
+      "kwargs": {
+        "column": "date_key",
+        "max_value": 21001231.0,
+        "min_value": 19000101.0
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "date_key format YYYYMMDD; ~1900-2100 is the valid universe"
+      },
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "e4518565-13eb-4ff2-8f80-21acd1739e26",
+      "kwargs": {
+        "column": "month_number",
+        "max_value": 12.0,
+        "min_value": 1.0
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Calendar constraint: months are 1..12"
+      },
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "fe64a00f-f336-4913-a7f9-12e0f048361c",
+      "kwargs": {
+        "column": "quarter_number",
+        "max_value": 4.0,
+        "min_value": 1.0
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Calendar constraint: quarters are 1..4"
+      },
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "4f768b82-5fb3-40f9-9731-10ea21c2d206",
+      "kwargs": {
+        "column": "day_of_week",
+        "max_value": 7.0,
+        "min_value": 1.0
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Calendar constraint: day_of_week is 1..7"
+      },
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "fbb62d4d-9861-4f7e-ad50-5fcd3f299f9c",
+      "kwargs": {
+        "column": "year_number",
+        "max_value": 2030.0,
+        "min_value": 2020.0
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Business-reasonable year range for the warehouse"
+      },
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "3f655484-b9c5-42e8-a9e0-c068c01bca5b",
+      "kwargs": {
+        "column": "month_name",
+        "value_set": [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ]
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "month_name must be one of 12 canonical English month names"
+      },
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "86b0aaba-8a4e-440a-a1a0-03c062a7e129",
+      "kwargs": {
+        "column": "day_name",
+        "value_set": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ]
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "day_name must be one of 7 canonical English day names"
+      },
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "332d6033-17e5-41f3-a04b-eebcce6c9ccc",
+      "kwargs": {
+        "column": "month_name",
+        "max_value": 9,
+        "min_value": 3
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Shortest 'May' (3), longest 'September' (9)"
+      },
+      "type": "expect_column_value_lengths_to_be_between"
+    },
+    {
+      "id": "8c19267d-64ff-4644-9c55-ee82c2d6f11c",
+      "kwargs": {
+        "column": "day_name",
+        "max_value": 9,
+        "min_value": 6
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Shortest 'Monday'/'Friday' (6), longest 'Wednesday' (9)"
+      },
+      "type": "expect_column_value_lengths_to_be_between"
+    },
+    {
+      "description": "year_number must equal EXTRACT(YEAR FROM full_date)",
+      "id": "7d3d32e4-379e-440a-a50f-0d2506644232",
+      "kwargs": {
+        "unexpected_rows_query": "SELECT date_key, full_date, year_number FROM {batch} WHERE year_number <> EXTRACT(YEAR FROM full_date)::INT"
+      },
+      "meta": {
+        "dimension": "Consistency",
+        "rationale": "Cross-column invariant: stored year must match date's year"
+      },
+      "type": "unexpected_rows_expectation"
+    },
+    {
+      "description": "is_weekend proportion must be within 25%-32% (~2/7 of days)",
+      "id": "174bd24b-2cb6-4dc1-8e7d-073f4e42e263",
+      "kwargs": {
+        "unexpected_rows_query": "SELECT 1 AS anomaly FROM (SELECT        CAST(COUNT(*) FILTER (WHERE is_weekend = TRUE) AS FLOAT)        / NULLIF(COUNT(*), 0) AS weekend_ratio       FROM {batch}) r WHERE r.weekend_ratio NOT BETWEEN 0.25 AND 0.32"
+      },
+      "meta": {
+        "dimension": "Validity",
+        "rationale": "Volumetric sanity: weekends are ~28.6% of a calendar year"
+      },
+      "type": "unexpected_rows_expectation"
+    }
+  ],
+  "id": "7beb9402-adf1-4d03-aabf-d8273f901435",
+  "meta": {
+    "great_expectations_version": "1.3.14"
+  },
+  "name": "dim_date_suite",
+  "notes": null
+}
